@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampusLedger – Digital Collections for Student Organizations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --navy: #0f2744;
+    --navy-mid: #1a3b5c;
+    --navy-light: #1e4976;
+    --orange: #f39c12;
+    --orange-dark: #d68910;
+    --orange-light: #fef3de;
+    --cream: #fafaf8;
+    --white: #ffffff;
+    --gray-100: #f5f5f3;
+    --gray-200: #e8e8e4;
+    --gray-400: #9a9a94;
+    --gray-600: #5a5a52;
+    --gray-800: #2a2a24;
+    --text: #1a1a14;
+    --radius: 12px;
+    --radius-lg: 20px;
+    --shadow-sm: 0 2px 8px rgba(15,39,68,.08);
+    --shadow-md: 0 8px 32px rgba(15,39,68,.12);
+    --shadow-lg: 0 20px 60px rgba(15,39,68,.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--cream);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Sora', sans-serif;
+    line-height: 1.2;
+  }
+
+  img { max-width: 100%; display: block; }
+
+  a { text-decoration: none; color: inherit; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 0 5%;
+    background: rgba(15,39,68,.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+
+  .nav-inner {
+    max-width: 1140px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px;
+  }
+
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Sora', sans-serif; font-weight: 700;
+    font-size: 1.2rem; color: var(--white);
+    letter-spacing: -.3px;
+  }
+
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: var(--orange);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .9rem; color: var(--navy);
+  }
+
+  .nav-links {
+    display: flex; align-items: center; gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: .9rem; font-weight: 500;
+    color: rgba(255,255,255,.75);
+    transition: color .2s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+
+  .btn-nav {
+    background: var(--orange);
+    color: var(--navy) !important;
+    font-weight: 700 !important;
+    padding: 9px 20px;
+    border-radius: 8px;
+    transition: background .2s, transform .15s !important;
+  }
+
+  .btn-nav:hover { background: var(--orange-dark) !important; transform: translateY(-1px); }
+
+  .hamburger {
+    display: none;
+    background: none; border: none; cursor: pointer;
+    color: var(--white); font-size: 1.4rem; padding: 4px;
+  }
+
+  .mobile-menu {
+    display: none;
+    background: var(--navy);
+    padding: 20px 5% 24px;
+  }
+
+  .mobile-menu a {
+    display: block;
+    color: rgba(255,255,255,.8);
+    padding: 12px 0;
+    font-size: 1rem; font-weight: 500;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+
+  .mobile-menu a:last-child { border-bottom: none; }
+
+  .mobile-menu.open { display: block; }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--orange);
+    color: var(--navy);
+    font-family: 'Sora', sans-serif;
+    font-weight: 700; font-size: .95rem;
+    padding: 14px 28px;
+    border-radius: var(--radius);
+    border: none; cursor: pointer;
+    transition: background .2s, transform .15s, box-shadow .2s;
+    box-shadow: 0 4px 16px rgba(243,156,18,.35);
+  }
+
+  .btn-primary:hover {
+    background: var(--orange-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(243,156,18,.45);
+  }
+
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent;
+    color: var(--white);
+    font-family: 'Sora', sans-serif;
+    font-weight: 600; font-size: .95rem;
+    padding: 13px 28px;
+    border-radius: var(--radius);
+    border: 2px solid rgba(255,255,255,.35);
+    cursor: pointer;
+    transition: border-color .2s, background .2s, transform .15s;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--white);
+    background: rgba(255,255,255,.08);
+    transform: translateY(-2px);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--navy);
+    display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+    padding-top: 68px;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 40%, rgba(243,156,18,.12) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 20% 70%, rgba(30,73,118,.6) 0%, transparent 50%);
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0; opacity: .04;
+    background-image:
+      linear-gradient(rgba(255,255,255,.4) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.4) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .hero-inner {
+    position: relative; z-index: 2;
+    max-width: 1140px; margin: 0 auto;
+    padding: 80px 5% 60px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 60px; align-items: center;
+    flex: 1;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(243,156,18,.15);
+    border: 1px solid rgba(243,156,18,.3);
+    color: var(--orange);
+    font-size: .8rem; font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 22px;
+    letter-spacing: -.5px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--orange);
+  }
+
+  .hero p {
+    font-size: 1.1rem; font-weight: 300;
+    color: rgba(255,255,255,.7);
+    margin-bottom: 36px;
+    max-width: 480px;
+    line-height: 1.75;
+  }
+
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .hero-trust {
+    margin-top: 40px;
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .trust-avatars {
+    display: flex;
+  }
+
+  .trust-avatars span {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--navy);
+    margin-left: -8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem; font-weight: 700; color: var(--white);
+    background: linear-gradient(135deg, var(--navy-light), var(--navy-mid));
+  }
+
+  .trust-avatars span:first-child { margin-left: 0; background: linear-gradient(135deg, #e74c3c, #c0392b); }
+  .trust-avatars span:nth-child(2) { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+  .trust-avatars span:nth-child(3) { background: linear-gradient(135deg, var(--orange), var(--orange-dark)); }
+
+  .trust-text { font-size: .82rem; color: rgba(255,255,255,.55); line-height: 1.4; }
+  .trust-text strong { color: rgba(255,255,255,.85); display: block; }
+
+  /* Hero mockup */
+  .hero-visual {
+    display: flex; justify-content: center; align-items: center;
+    position: relative;
+  }
+
+  .mockup-card {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    width: 100%; max-width: 400px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 32px 80px rgba(0,0,0,.4);
+  }
+
+  .mockup-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .mockup-title {
+    font-family: 'Sora', sans-serif;
+    font-size: .85rem; font-weight: 600;
+    color: rgba(255,255,255,.9);
+  }
+
+  .mockup-badge {
+    background: rgba(39,174,96,.15);
+    border: 1px solid rgba(39,174,96,.3);
+    color: #2ecc71;
+    font-size: .72rem; font-weight: 600;
+    padding: 3px 10px; border-radius: 100px;
+  }
+
+  .receipt-preview {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .receipt-top {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--gray-200);
+  }
+
+  .receipt-org {
+    font-family: 'Sora', sans-serif;
+    font-size: .78rem; font-weight: 700;
+    color: var(--navy);
+  }
+
+  .receipt-no {
+    font-size: .7rem; color: var(--gray-400);
+    font-weight: 500;
+  }
+
+  .receipt-row {
+    display: flex; justify-content: space-between;
+    font-size: .78rem; color: var(--gray-600);
+    margin-bottom: 6px;
+  }
+
+  .receipt-row.total {
+    font-weight: 700;
+    color: var(--navy);
+    font-size: .85rem;
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid var(--gray-200);
+  }
+
+  .receipt-stamp {
+    text-align: center; margin-top: 10px;
+    font-size: .68rem; color: var(--orange);
+    font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .mockup-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .stat-mini {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: var(--radius);
+    padding: 12px;
+  }
+
+  .stat-mini .num {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.3rem; font-weight: 700;
+    color: var(--orange);
+    display: block;
+  }
+
+  .stat-mini .label {
+    font-size: .7rem; color: rgba(255,255,255,.5);
+    font-weight: 500;
+  }
+
+  .float-badge {
+    position: absolute;
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    box-shadow: var(--shadow-lg);
+    display: flex; align-items: center; gap: 8px;
+    font-size: .78rem; font-weight: 600;
+    color: var(--navy);
+    animation: floatBadge 3s ease-in-out infinite;
+  }
+
+  .float-badge.one { top: -16px; right: -16px; }
+  .float-badge.two { bottom: 20px; left: -20px; }
+  .float-badge i { color: var(--orange); }
+
+  @keyframes floatBadge {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  /* ── SECTION COMMON ── */
+  section { padding: 88px 5%; }
+
+  .container { max-width: 1140px; margin: 0 auto; }
+
+  .section-tag {
+    display: inline-block;
+    font-size: .75rem; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 14px;
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    font-weight: 800; color: var(--navy);
+    margin-bottom: 16px;
+    letter-spacing: -.4px;
+  }
+
+  .section-sub {
+    font-size: 1.05rem; color: var(--gray-600);
+    max-width: 560px; line-height: 1.75;
+  }
+
+  /* ── PROBLEM BAND ── */
+  .problem {
+    background: var(--navy);
+    padding: 64px 5%;
+  }
+
+  .problem-inner {
+    max-width: 1140px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 60px; align-items: center;
+  }
+
+  .problem h2 {
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-weight: 800; color: var(--white);
+    margin-bottom: 18px; letter-spacing: -.4px;
+  }
+
+  .problem h2 span { color: var(--orange); }
+
+  .problem p {
+    font-size: 1rem; color: rgba(255,255,255,.6);
+    line-height: 1.8;
+  }
+
+  .problem-pains {
+    display: flex; flex-direction: column; gap: 14px;
+  }
+
+  .pain-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+  }
+
+  .pain-icon {
+    width: 36px; height: 36px; flex-shrink: 0;
+    border-radius: 8px;
+    background: rgba(243,156,18,.15);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--orange); font-size: .9rem;
+  }
+
+  .pain-text strong {
+    display: block; color: var(--white);
+    font-size: .88rem; font-weight: 600; margin-bottom: 2px;
+  }
+
+  .pain-text span {
+    font-size: .82rem; color: rgba(255,255,255,.5);
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how { background: var(--white); }
+
+  .steps {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 32px; margin-top: 52px;
+    position: relative;
+  }
+
+  .steps::before {
+    content: '';
+    position: absolute;
+    top: 36px; left: calc(16.66% + 12px); right: calc(16.66% + 12px);
+    height: 2px;
+    background: linear-gradient(90deg, var(--orange), var(--orange));
+    background: repeating-linear-gradient(90deg, var(--orange) 0, var(--orange) 8px, transparent 8px, transparent 16px);
+    opacity: .4;
+  }
+
+  .step-card {
+    background: var(--cream);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    text-align: center;
+    position: relative;
+    transition: transform .25s, box-shadow .25s;
+  }
+
+  .step-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .step-num {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Sora', sans-serif;
+    font-weight: 800; font-size: 1.1rem;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    position: relative; z-index: 1;
+    box-shadow: 0 4px 16px rgba(15,39,68,.25);
+  }
+
+  .step-icon {
+    font-size: 1.8rem; color: var(--orange);
+    margin-bottom: 16px;
+  }
+
+  .step-card h3 {
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--navy); margin-bottom: 10px;
+  }
+
+  .step-card p {
+    font-size: .88rem; color: var(--gray-600);
+    line-height: 1.65;
+  }
+
+  /* ── BENEFITS ── */
+  .benefits { background: var(--cream); }
+
+  .benefits-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 24px; margin-top: 52px;
+  }
+
+  .benefit-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px;
+    transition: transform .25s, box-shadow .25s, border-color .25s;
+  }
+
+  .benefit-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--orange);
+  }
+
+  .benefit-icon {
+    width: 52px; height: 52px;
+    border-radius: 12px;
+    background: var(--orange-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; color: var(--orange);
+    margin-bottom: 18px;
+  }
+
+  .benefit-card h3 {
+    font-size: 1rem; font-weight: 700;
+    color: var(--navy); margin-bottom: 8px;
+  }
+
+  .benefit-card p {
+    font-size: .85rem; color: var(--gray-600);
+    line-height: 1.65;
+  }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials { background: var(--navy); }
+
+  .testimonials .section-title { color: var(--white); }
+  .testimonials .section-sub { color: rgba(255,255,255,.55); }
+
+  .testi-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 24px; margin-top: 52px;
+  }
+
+  .testi-card {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    position: relative;
+    transition: background .25s;
+  }
+
+  .testi-card:hover { background: rgba(255,255,255,.08); }
+
+  .testi-quote {
+    font-size: 3rem; color: var(--orange);
+    font-family: 'Sora', sans-serif; line-height: 1;
+    margin-bottom: 16px; opacity: .6;
+  }
+
+  .testi-card p {
+    font-size: 1rem; color: rgba(255,255,255,.8);
+    line-height: 1.75; font-style: italic;
+    margin-bottom: 24px;
+  }
+
+  .testi-author {
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .testi-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Sora', sans-serif;
+    font-weight: 700; color: var(--navy); font-size: .85rem;
+    flex-shrink: 0;
+  }
+
+  .testi-info strong {
+    display: block; color: var(--white);
+    font-size: .88rem; font-weight: 600;
+  }
+
+  .testi-info span {
+    font-size: .78rem; color: rgba(255,255,255,.45);
+  }
+
+  .stars {
+    color: var(--orange); font-size: .8rem;
+    margin-bottom: 14px; letter-spacing: 2px;
+  }
+
+  /* ── PRICING ── */
+  .pricing { background: var(--white); }
+
+  .pricing-card {
+    max-width: 520px; margin: 52px auto 0;
+    background: var(--navy);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    position: relative; overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .pricing-card::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(243,156,18,.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .pricing-pill {
+    display: inline-block;
+    background: var(--orange);
+    color: var(--navy);
+    font-size: .75rem; font-weight: 700;
+    padding: 4px 12px; border-radius: 100px;
+    text-transform: uppercase; letter-spacing: .5px;
+    margin-bottom: 24px;
+  }
+
+  .pricing-price {
+    font-family: 'Sora', sans-serif;
+    font-size: 3.2rem; font-weight: 800;
+    color: var(--white);
+    display: flex; align-items: flex-start; gap: 4px;
+    margin-bottom: 6px;
+  }
+
+  .pricing-price sup {
+    font-size: 1.4rem; margin-top: 12px; font-weight: 600;
+  }
+
+  .pricing-period {
+    font-size: .9rem; color: rgba(255,255,255,.5);
+    margin-bottom: 32px;
+  }
+
+  .pricing-features {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 13px;
+    margin-bottom: 36px;
+  }
+
+  .pricing-features li {
+    display: flex; align-items: center; gap: 12px;
+    font-size: .9rem; color: rgba(255,255,255,.8);
+  }
+
+  .pricing-features li i {
+    color: #2ecc71; font-size: .85rem; flex-shrink: 0;
+  }
+
+  .pricing-trial {
+    text-align: center;
+    font-size: .82rem; color: rgba(255,255,255,.4);
+    margin-top: 20px;
+  }
+
+  /* ── CTA BAND ── */
+  .cta-band {
+    background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
+    padding: 80px 5%;
+    text-align: center;
+  }
+
+  .cta-band h2 {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 800; color: var(--navy);
+    margin-bottom: 14px;
+  }
+
+  .cta-band p {
+    font-size: 1.05rem; color: rgba(15,39,68,.7);
+    margin-bottom: 36px;
+  }
+
+  .cta-band .btn-primary {
+    background: var(--navy); color: var(--white);
+    box-shadow: 0 8px 24px rgba(15,39,68,.35);
+  }
+
+  .cta-band .btn-primary:hover {
+    background: var(--navy-mid);
+    box-shadow: 0 12px 32px rgba(15,39,68,.45);
+  }
+
+  /* ── CONTACT ── */
+  .contact { background: var(--cream); }
+
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 60px; margin-top: 52px; align-items: start;
+  }
+
+  .contact-info h3 {
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--navy); margin-bottom: 24px;
+  }
+
+  .contact-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .contact-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    background: var(--orange-light);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--orange); font-size: .9rem;
+  }
+
+  .contact-item strong {
+    display: block; font-size: .85rem;
+    color: var(--gray-400); font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  .contact-item a, .contact-item span {
+    font-size: .92rem; color: var(--navy);
+    font-weight: 500;
+  }
+
+  .contact-item a:hover { color: var(--orange); }
+
+  .contact-form {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+  }
+
+  .form-group { margin-bottom: 18px; }
+
+  .form-group label {
+    display: block; font-size: .82rem; font-weight: 600;
+    color: var(--gray-600); margin-bottom: 7px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: var(--cream);
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .9rem; color: var(--text);
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--navy-light);
+    box-shadow: 0 0 0 3px rgba(30,73,118,.1);
+  }
+
+  .form-group textarea { resize: vertical; min-height: 100px; }
+
+  .btn-submit {
+    width: 100%;
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Sora', sans-serif;
+    font-weight: 700; font-size: .95rem;
+    padding: 14px;
+    border-radius: var(--radius);
+    border: none; cursor: pointer;
+    transition: background .2s, transform .15s;
+  }
+
+  .btn-submit:hover { background: var(--navy-mid); transform: translateY(-1px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    padding: 40px 5% 32px;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+
+  .footer-inner {
+    max-width: 1140px; margin: 0 auto;
+    display: flex; align-items: center;
+    justify-content: space-between; flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .footer-logo {
+    font-family: 'Sora', sans-serif;
+    font-weight: 700; color: var(--white);
+    font-size: 1rem;
+  }
+
+  .footer-note {
+    font-size: .8rem; color: rgba(255,255,255,.35);
+    margin-top: 4px;
+  }
+
+  .footer-links {
+    display: flex; gap: 20px;
+  }
+
+  .footer-links a {
+    color: rgba(255,255,255,.45);
+    font-size: .85rem; font-weight: 500;
+    transition: color .2s;
+  }
+
+  .footer-links a:hover { color: var(--orange); }
+
+  .footer-social {
+    display: flex; gap: 10px;
+  }
+
+  .social-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: rgba(255,255,255,.07);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,.5);
+    font-size: .9rem;
+    transition: background .2s, color .2s;
+  }
+
+  .social-icon:hover { background: var(--orange); color: var(--navy); }
+
+  /* ── SUCCESS TOAST ── */
+  .toast {
+    position: fixed; bottom: 32px; right: 32px; z-index: 999;
+    background: var(--navy);
+    color: var(--white);
+    border-left: 4px solid #2ecc71;
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    box-shadow: var(--shadow-lg);
+    display: flex; align-items: center; gap: 10px;
+    font-size: .9rem; font-weight: 500;
+    transform: translateY(120%);
+    transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+    pointer-events: none;
+  }
+
+  .toast.show { transform: translateY(0); }
+  .toast i { color: #2ecc71; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 960px) {
+    .hero-inner { grid-template-columns: 1fr; text-align: center; gap: 48px; }
+    .hero p { max-width: 100%; }
+    .hero-ctas { justify-content: center; }
+    .hero-trust { justify-content: center; }
+    .hero-visual { display: none; }
+
+    .problem-inner { grid-template-columns: 1fr; gap: 36px; }
+    .steps { grid-template-columns: 1fr; }
+    .steps::before { display: none; }
+    .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+    .testi-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+  }
+
+  @media (max-width: 540px) {
+    .benefits-grid { grid-template-columns: 1fr; }
+    .footer-inner { flex-direction: column; text-align: center; }
+    .pricing-card { padding: 32px 24px; }
+  }
+
+  /* ── SCROLL FADE IN ── */
+  .fade-in {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity .65s ease, transform .65s ease;
+  }
+
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon"><i class="fa-solid fa-receipt"></i></div>
+      CampusLedger
+    </a>
+    <ul class="nav-links">
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#benefits">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact" class="btn-nav">Start Free Trial</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <i class="fa-solid fa-bars" id="ham-icon"></i>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#how" onclick="closeMenu()">How It Works</a>
+    <a href="#benefits" onclick="closeMenu()">Features</a>
+    <a href="#pricing" onclick="closeMenu()">Pricing</a>
+    <a href="#contact" onclick="closeMenu()">Contact</a>
+    <a href="#contact" onclick="closeMenu()" style="color:var(--orange);font-weight:700;">Start Free Trial →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <i class="fa-solid fa-star"></i>
+        Built for Student Organizations · CMU
+      </div>
+      <h1>Stop manual receipts.<br><em>Start digital collections.</em></h1>
+      <p>CampusLedger helps student organization treasurers record payments, issue receipts, and generate audit-ready reports in minutes — not days.</p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn-primary">
+          <i class="fa-solid fa-rocket"></i> Start Free Trial
+        </a>
+        <a href="#contact" class="btn-outline">
+          <i class="fa-solid fa-calendar-check"></i> Request Demo
+        </a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-avatars">
+          <span>HM</span>
+          <span>AL</span>
+          <span>JR</span>
+        </div>
+        <div class="trust-text">
+          <strong>Trusted by CMU student leaders</strong>
+          14-day free trial · No credit card needed
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div style="position:relative;">
+        <div class="mockup-card">
+          <div class="mockup-header">
+            <span class="mockup-title">📋 Digital Receipt</span>
+            <span class="mockup-badge">✓ Issued</span>
+          </div>
+          <div class="receipt-preview">
+            <div class="receipt-top">
+              <div>
+                <div class="receipt-org">COASCO · CMU</div>
+                <div class="receipt-no">OR No. 2024-0087</div>
+              </div>
+              <div style="text-align:right;">
+                <div class="receipt-no">April 26, 2024</div>
+              </div>
+            </div>
+            <div class="receipt-row"><span>Received from</span><span style="font-weight:600;color:#1a1a14;">Juan dela Cruz</span></div>
+            <div class="receipt-row"><span>Purpose</span><span>Org Fee – S.Y. 2024</span></div>
+            <div class="receipt-row"><span>Mode</span><span>GCash</span></div>
+            <div class="receipt-row total"><span>TOTAL</span><span>₱200.00</span></div>
+            <div class="receipt-stamp">✓ PAID · OFFICIAL RECEIPT</div>
+          </div>
+          <div class="mockup-stats">
+            <div class="stat-mini">
+              <span class="num">₱18,400</span>
+              <span class="label">Collected today</span>
+            </div>
+            <div class="stat-mini">
+              <span class="num">92</span>
+              <span class="label">Receipts issued</span>
+            </div>
+          </div>
+        </div>
+        <div class="float-badge one">
+          <i class="fa-solid fa-bolt"></i> Receipt in 3 seconds
+        </div>
+        <div class="float-badge two" style="animation-delay:.8s;">
+          <i class="fa-solid fa-shield-halved"></i> Audit-ready
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<div class="problem">
+  <div class="problem-inner">
+    <div>
+      <span class="section-tag" style="color:var(--orange);">The Problem</span>
+      <h2>Manual record-keeping is <span>costing you hours</span> every week.</h2>
+      <p>Student treasurers across CMU spend too much time on paperwork — and too little time on actual org leadership. There's a better way.</p>
+    </div>
+    <div class="problem-pains fade-in">
+      <div class="pain-item">
+        <div class="pain-icon"><i class="fa-solid fa-file-circle-xmark"></i></div>
+        <div class="pain-text">
+          <strong>Handwritten receipts get lost</strong>
+          <span>A misplaced receipt means disputes during audit season.</span>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div class="pain-text">
+          <strong>Excel files have errors</strong>
+          <span>Manual addition mistakes can cost your org its OSAS accreditation.</span>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-icon"><i class="fa-solid fa-clock"></i></div>
+        <div class="pain-text">
+          <strong>Reporting takes hours</strong>
+          <span>Compiling weekly financial reports shouldn't eat your whole Sunday.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="container">
+    <span class="section-tag">How It Works</span>
+    <h2 class="section-title">From collection to report<br>in three simple steps.</h2>
+    <p class="section-sub">No training needed. If you can use a phone, you can use CampusLedger.</p>
+    <div class="steps">
+      <div class="step-card fade-in">
+        <div class="step-num">1</div>
+        <div class="step-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+        <h3>Record the Payment</h3>
+        <p>Enter the member's name, amount, and purpose. Takes under 10 seconds per transaction.</p>
+      </div>
+      <div class="step-card fade-in" style="transition-delay:.1s;">
+        <div class="step-num">2</div>
+        <div class="step-icon"><i class="fa-solid fa-receipt"></i></div>
+        <h3>Generate a Receipt</h3>
+        <p>An official digital receipt is automatically created — ready to share via Messenger or download as PDF.</p>
+      </div>
+      <div class="step-card fade-in" style="transition-delay:.2s;">
+        <div class="step-num">3</div>
+        <div class="step-icon"><i class="fa-solid fa-file-chart-column"></i></div>
+        <h3>Export Your Report</h3>
+        <p>One click generates a complete, OSAS-formatted audit report — no reformatting required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="benefits" id="benefits">
+  <div class="container">
+    <span class="section-tag">Key Benefits</span>
+    <h2 class="section-title">Everything a treasurer needs.<br>Nothing extra.</h2>
+    <div class="benefits-grid">
+      <div class="benefit-card fade-in">
+        <div class="benefit-icon"><i class="fa-solid fa-bolt"></i></div>
+        <h3>⚡ Lightning Fast</h3>
+        <p>Record 50 payments in under 5 minutes. Built for org collection days with high volume.</p>
+      </div>
+      <div class="benefit-card fade-in" style="transition-delay:.08s;">
+        <div class="benefit-icon"><i class="fa-solid fa-calculator"></i></div>
+        <h3>✅ Always Accurate</h3>
+        <p>Automatic totals and running balances eliminate manual addition errors for good.</p>
+      </div>
+      <div class="benefit-card fade-in" style="transition-delay:.16s;">
+        <div class="benefit-icon"><i class="fa-solid fa-lock"></i></div>
+        <h3>🔒 Secure & Durable</h3>
+        <p>Digital records never fade, tear, or get lost. Access your records from any device, anytime.</p>
+      </div>
+      <div class="benefit-card fade-in" style="transition-delay:.24s;">
+        <div class="benefit-icon"><i class="fa-solid fa-file-invoice"></i></div>
+        <h3>📋 Audit-Ready</h3>
+        <p>Reports auto-formatted for OSAS requirements. Walk into audit season with confidence.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="container">
+    <span class="section-tag">What Treasurers Say</span>
+    <h2 class="section-title">Real words from real student leaders.</h2>
+    <p class="section-sub">We built CampusLedger with feedback from CMU org treasurers who lived through the pain.</p>
+    <div class="testi-grid">
+      <div class="testi-card fade-in">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p>As COASCO Treasurer, I used to spend 6 hours on weekly reports. CampusLedger cut it to 30 minutes. I actually get to enjoy org events now instead of dreading the paperwork after.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">HY</div>
+          <div class="testi-info">
+            <strong>Hannah Mae S. Yanong</strong>
+            <span>COASCO Treasurer · CMU</span>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-in" style="transition-delay:.1s;">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p>Finally, a tool built for student leaders like us. It understands how our organizations actually work — down to the OSAS reporting format. Wish we had this sooner.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">AR</div>
+          <div class="testi-info">
+            <strong>Angel Lou S. Ral</strong>
+            <span>CASSCo Treasurer · CMU</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="container" style="text-align:center;">
+    <span class="section-tag">Pricing</span>
+    <h2 class="section-title">Simple, affordable pricing<br>for student organizations.</h2>
+    <p class="section-sub" style="margin:0 auto;">One flat price. No hidden fees. Built for orgs running on tight budgets.</p>
+    <div class="pricing-card fade-in">
+      <div class="pricing-pill">Most Popular</div>
+      <div class="pricing-price"><sup>₱</sup>500</div>
+      <div class="pricing-period">per semester · per organization</div>
+      <ul class="pricing-features">
+        <li><i class="fa-solid fa-circle-check"></i> Unlimited member records</li>
+        <li><i class="fa-solid fa-circle-check"></i> Unlimited digital receipts</li>
+        <li><i class="fa-solid fa-circle-check"></i> Audit-ready financial reports</li>
+        <li><i class="fa-solid fa-circle-check"></i> OSAS-formatted export</li>
+        <li><i class="fa-solid fa-circle-check"></i> Facebook Messenger support</li>
+        <li><i class="fa-solid fa-circle-check"></i> Up to 5 officer accounts</li>
+      </ul>
+      <a href="#contact" class="btn-primary" style="width:100%;justify-content:center;font-size:1rem;">
+        <i class="fa-solid fa-rocket"></i> Start 14-Day Free Trial
+      </a>
+      <p class="pricing-trial">No credit card required. Full access for 14 days.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <div class="container">
+    <h2>Ready to stop manual work?</h2>
+    <p>Join CMU student organizations already saving hours every semester.</p>
+    <a href="#contact" class="btn-primary" style="font-size:1.05rem;padding:16px 36px;">
+      Start your free trial → 
+    </a>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="container">
+    <span class="section-tag">Contact & Support</span>
+    <h2 class="section-title">Get in touch. We respond fast.</h2>
+    <p class="section-sub">Have questions? Want a demo for your org? We'll walk you through everything.</p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Reach us directly</h3>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+          <div>
+            <strong>Email</strong>
+            <a href="mailto:support@campusledger.ph">support@campusledger.ph</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fa-brands fa-facebook-messenger"></i></div>
+          <div>
+            <strong>Facebook Messenger</strong>
+            <a href="https://m.me/CampusLedgerPH" target="_blank">m.me/CampusLedgerPH</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fa-brands fa-facebook"></i></div>
+          <div>
+            <strong>Facebook Page</strong>
+            <a href="https://facebook.com/CampusLedgerPH" target="_blank">@CampusLedgerPH</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+          <div>
+            <strong>Made for</strong>
+            <span>Student Organizations at Central Mindanao University, Musuan, Bukidnon</span>
+          </div>
+        </div>
+
+        <div style="margin-top:32px;background:var(--navy);border-radius:var(--radius-lg);padding:24px;">
+          <div style="font-family:'Sora',sans-serif;font-weight:700;color:var(--white);font-size:.95rem;margin-bottom:8px;">
+            <i class="fa-solid fa-headset" style="color:var(--orange);margin-right:8px;"></i>
+            Messenger Support Hours
+          </div>
+          <div style="font-size:.85rem;color:rgba(255,255,255,.55);line-height:1.7;">
+            Monday – Friday: 8:00 AM – 8:00 PM<br>
+            Saturday: 9:00 AM – 5:00 PM<br>
+            <em style="color:rgba(255,255,255,.3);">We typically reply within 30 minutes.</em>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <h3 style="font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:24px;">Send us a message</h3>
+        <form id="contactForm" onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" placeholder="e.g. Juan dela Cruz" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="yourname@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="org">Organization & Position</label>
+            <input type="text" id="org" placeholder="e.g. COASCO Treasurer, CMU">
+          </div>
+          <div class="form-group">
+            <label for="interest">I'm interested in</label>
+            <select id="interest">
+              <option value="">Select one...</option>
+              <option>Starting a free trial</option>
+              <option>Requesting a demo</option>
+              <option>Learning about pricing</option>
+              <option>Other inquiry</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" placeholder="Tell us about your org and what you need..." required></textarea>
+          </div>
+          <button type="submit" class="btn-submit">
+            <i class="fa-solid fa-paper-plane" style="margin-right:8px;"></i> Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">
+        <i class="fa-solid fa-receipt" style="color:var(--orange);margin-right:6px;"></i>
+        CampusLedger
+      </div>
+      <div class="footer-note">Made for student organizations at Central Mindanao University</div>
+    </div>
+    <div class="footer-links">
+      <a href="#how">How It Works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-social">
+      <a href="https://facebook.com/CampusLedgerPH" target="_blank" class="social-icon" title="Facebook">
+        <i class="fa-brands fa-facebook-f"></i>
+      </a>
+      <a href="https://m.me/CampusLedgerPH" target="_blank" class="social-icon" title="Messenger">
+        <i class="fa-brands fa-facebook-messenger"></i>
+      </a>
+      <a href="mailto:support@campusledger.ph" class="social-icon" title="Email">
+        <i class="fa-solid fa-envelope"></i>
+      </a>
+    </div>
+  </div>
+  <div style="max-width:1140px;margin:28px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.06);text-align:center;">
+    <span style="font-size:.78rem;color:rgba(255,255,255,.2);">© 2024 CampusLedger. All rights reserved. · Designed for CMU student leaders.</span>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <i class="fa-solid fa-circle-check"></i>
+  Message sent! We'll get back to you within 30 minutes.
+</div>
+
+<script>
+  // Mobile menu
+  function toggleMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const icon = document.getElementById('ham-icon');
+    menu.classList.toggle('open');
+    icon.className = menu.classList.contains('open')
+      ? 'fa-solid fa-xmark'
+      : 'fa-solid fa-bars';
+  }
+
+  function closeMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const icon = document.getElementById('ham-icon');
+    menu.classList.remove('open');
+    icon.className = 'fa-solid fa-bars';
+  }
+
+  // Close mobile menu on outside click
+  document.addEventListener('click', (e) => {
+    const nav = document.querySelector('nav');
+    if (!nav.contains(e.target)) closeMenu();
+  });
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-submit');
+    btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin" style="margin-right:8px;"></i> Sending...';
+    btn.disabled = true;
+
+    setTimeout(() => {
+      document.getElementById('contactForm').reset();
+      btn.innerHTML = '<i class="fa-solid fa-paper-plane" style="margin-right:8px;"></i> Send Message';
+      btn.disabled = false;
+      showToast();
+    }, 1400);
+  }
+
+  function showToast() {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4000);
+  }
+
+  // Scroll fade-in
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  fadeEls.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
